@@ -51,10 +51,10 @@ export default function Form() {
     }
 
     return (
-        <div className="p-20">
+        <div className="p-10 sm:p-20">
             <div className="text-3xl text-center text-white mb-10">DSN Generator</div>
             <form action="/" method="post" onSubmit={onSubmitFunc}>
-                <div className="overflow-hidden shadow sm:rounded-md">
+                <div className="overflow-hidden shadow rounded">
                     <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
 
