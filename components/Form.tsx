@@ -1,21 +1,30 @@
 'use client';
 
-import Conditional from "@/components/Conditional";
-import UserPass from "@/components/UserPass";
 import {useState} from "react";
+import Conditional from "@/components/Conditional";
 import Copy from "@/components/Copy";
+import FormInput from "@/components/FormInput";
+import FormSelect from "@/components/FormSelect";
 
 export default function Form() {
 
+    const [port, setPort] = useState<number|null>(3306);
     const [showUserPass, setShowUserPass] = useState(true);
     const [dsnString, setDsnString] = useState('');
 
     const onDbmsSelect = (e: any) => {
-        if (e.target.value === 'sqlite') {
+        let value = e.target.value;
+        if (value === 'sqlite') {
             setShowUserPass(false);
-        } else {
+            setPort(null);
+        } else if(value === 'mysql') {
             setShowUserPass(true);
+            setPort(3306);
+        } else if(value === 'postgres') {
+            setShowUserPass(true);
+            setPort(5432);
         }
+        setDsnString('');
     }
 
     const onSubmitFunc = (e: any) => {
@@ -58,60 +67,25 @@ export default function Form() {
                     <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
 
-                            <div className="col-span-6">
-                                <label htmlFor="dbms" className="block text-sm font-medium text-gray-700">DBMS</label>
-                                <select
-                                  id="dbms"
-                                  name="dbms"
-                                  autoComplete="dbms"
-                                  onChange={onDbmsSelect}
-                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
-                                >
-                                    <option value="mysql">MySQL/MariaDB</option>
-                                    <option value="postgres">PostgreSQL</option>
-                                    <option value="sqlite">SQLite</option>
-                                </select>
-                            </div>
+                            <FormSelect name="dbms"
+                                        className="col-span-6"
+                                        options={{
+                                            'mysql': 'MySQL/MariaDB',
+                                            'postgres': 'PostgreSQL',
+                                            'sqlite': 'SQLite'
+                                        }}
+                                        onChange={onDbmsSelect}
+                            />
 
-                            <div className="col-span-4">
-                                <label htmlFor="server" className="block text-sm font-medium text-gray-700">Server</label>
-                                <input
-                                  type="text"
-                                  name="server"
-                                  id="server"
-                                  autoComplete="server"
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                />
-                            </div>
-
-                            <div className="col-span-2">
-                                <label htmlFor="port" className="block text-sm font-medium text-gray-700">Port</label>
-                                <input
-                                  type="number"
-                                  min="0"
-                                  step="1"
-                                  name="port"
-                                  id="port"
-                                  autoComplete="port"
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                />
-                            </div>
+                            <FormInput type="text" name="server" className="col-span-4" label="Server" otherAttrs={{value: 'localhost'}}/>
+                            <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, value:port ?? ''}}/>
 
                             <Conditional showWhen={showUserPass}>
-                                <UserPass/>
+                                <FormInput type="text" name="username" className="col-span-6" label="Username"/>
+                                <FormInput type="password" name="password" className="col-span-6" label="Password"/>
                             </Conditional>
 
-                            <div className="col-span-6">
-                                <label htmlFor="database" className="block text-sm font-medium text-gray-700">Database</label>
-                                <input
-                                  type="text"
-                                  name="database"
-                                  id="database"
-                                  autoComplete="database"
-                                  required={true}
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
-                                />
-                            </div>
+                            <FormInput type="text" name="database" className="col-span-6" label="Database" required={true}/>
 
                         </div>
                     </div>
