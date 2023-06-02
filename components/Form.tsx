@@ -68,51 +68,48 @@ export default function Form() {
     }
 
     return (
-        <div className="p-10 sm:p-20">
-            <div className="text-3xl text-center text-white mb-10">DSN Generator</div>
-            <form action="/" method="post" onSubmit={onSubmitFunc}>
-                <div className="overflow-hidden shadow rounded">
-                    <div className="bg-white px-4 py-5 sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
+        <form action="/" method="post" onSubmit={onSubmitFunc}>
+            <div className="overflow-hidden shadow rounded">
+                <div className="bg-white px-4 py-5 sm:p-6">
+                    <div className="grid grid-cols-6 gap-6">
 
-                            <FormSelect name="dbms"
-                                        label="DBMS"
-                                        className="col-span-6"
-                                        options={{
-                                            'mysql': 'MySQL/MariaDB',
-                                            'postgres': 'PostgreSQL',
-                                            'sqlite': 'SQLite'
-                                        }}
-                                        onChange={onDbmsSelect}
-                            />
+                        <FormSelect name="dbms"
+                                    label="DBMS"
+                                    className="col-span-6"
+                                    options={{
+                                        'mysql': 'MySQL/MariaDB',
+                                        'postgres': 'PostgreSQL',
+                                        'sqlite': 'SQLite'
+                                    }}
+                                    onChange={onDbmsSelect}
+                        />
 
-                            <FormInput type="text" name="server" className={`${showPort ? "col-span-4" : "col-span-6"}`} label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
-                            <Conditional showWhen={showPort}>
-                                <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, defaultValue:port ?? ''}}/>
-                            </Conditional>
+                        <FormInput type="text" name="server" className={`${showPort ? "col-span-4" : "col-span-6"}`} label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
+                        <Conditional showWhen={showPort}>
+                            <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, defaultValue:port ?? ''}}/>
+                        </Conditional>
 
-                            <Conditional showWhen={showUserPass}>
-                                <FormInput type="text" name="username" className="col-span-6" label="Username"/>
-                                <FormInput type="password" name="password" className="col-span-6" label="Password"/>
-                            </Conditional>
+                        <Conditional showWhen={showUserPass}>
+                            <FormInput type="text" name="username" className="col-span-6" label="Username"/>
+                            <FormInput type="password" name="password" className="col-span-6" label="Password"/>
+                        </Conditional>
 
-                            <FormInput type="text" name="database" className="col-span-6" label="Database" required={true}/>
+                        <FormInput type="text" name="database" className="col-span-6" label="Database" required={true}/>
 
-                        </div>
-                    </div>
-
-                    <Conditional showWhen={dsnString !== ''}>
-                        <Copy text={dsnString}></Copy>
-                    </Conditional>
-
-                    <div className="bg-gray-50 px-4 py-3 text-center sm:px-6">
-                        <button
-                          type="submit"
-                          className="w-full rounded-md border border-transparent bg-red-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                        >Generate</button>
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <Conditional showWhen={dsnString !== ''}>
+                    <Copy text={dsnString}></Copy>
+                </Conditional>
+
+                <div className="bg-gray-50 px-4 py-3 text-center sm:px-6">
+                    <button
+                      type="submit"
+                      className="w-full rounded-md border border-transparent bg-red-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    >Generate</button>
+                </div>
+            </div>
+        </form>
     )
 }
