@@ -16,7 +16,7 @@ export default function Copy({text, disabled, label = 'Copy'}:{text: string, dis
     });
   }
     return (
-      <div className={`${s.field} px-6 relative`}>
+      <div className={`${s.field} relative`}>
         <div className="text-ellipsis text-xl text-center p-2 mb-5 rounded border border-green-500">{text}</div>
         <Conditional showWhen={!disabled}>
           <button
