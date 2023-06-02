@@ -9,20 +9,24 @@ import FormSelect from "@/components/FormSelect";
 export default function Form() {
 
     const [port, setPort] = useState<number|null>(3306);
-    const [showUserPass, setShowUserPass] = useState(true);
     const [dsnString, setDsnString] = useState('');
+    const [showPort, setShowPort] = useState(true);
+    const [showUserPass, setShowUserPass] = useState(true);
 
     const onDbmsSelect = (e: any) => {
         let value = e.target.value;
         if (value === 'sqlite') {
             setShowUserPass(false);
             setPort(null);
+            setShowPort(false);
         } else if(value === 'mysql') {
             setShowUserPass(true);
             setPort(3306);
+            setShowPort(true);
         } else if(value === 'postgres') {
             setShowUserPass(true);
             setPort(5432);
+            setShowPort(true);
         }
         setDsnString('');
     }
@@ -33,11 +37,15 @@ export default function Form() {
         const data = {
             dbms: e.target.dbms.value,
             server: e.target.server.value,
-            port: e.target.port.value,
+            port: undefined,
             username: undefined,
             password: undefined,
             database: e.target.database.value,
         };
+
+        if (showPort) {
+            data.port = e.target.port.value;
+        }
 
         if (showUserPass) {
             data.username = e.target.username.value;
@@ -78,8 +86,10 @@ export default function Form() {
                                         onChange={onDbmsSelect}
                             />
 
-                            <FormInput type="text" name="server" className="col-span-4" label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
-                            <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, value:port ?? ''}}/>
+                            <FormInput type="text" name="server" className={`${showPort ? "col-span-4" : "col-span-6"}`} label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
+                            <Conditional showWhen={showPort}>
+                                <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, defaultValue:port ?? ''}}/>
+                            </Conditional>
 
                             <Conditional showWhen={showUserPass}>
                                 <FormInput type="text" name="username" className="col-span-6" label="Username"/>
