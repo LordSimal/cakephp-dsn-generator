@@ -68,6 +68,7 @@ export default function Form() {
                         <div className="grid grid-cols-6 gap-6">
 
                             <FormSelect name="dbms"
+                                        label="DBMS"
                                         className="col-span-6"
                                         options={{
                                             'mysql': 'MySQL/MariaDB',
@@ -77,7 +78,7 @@ export default function Form() {
                                         onChange={onDbmsSelect}
                             />
 
-                            <FormInput type="text" name="server" className="col-span-4" label="Server" otherAttrs={{value: 'localhost'}}/>
+                            <FormInput type="text" name="server" className="col-span-4" label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
                             <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, value:port ?? ''}}/>
 
                             <Conditional showWhen={showUserPass}>
