@@ -1,4 +1,4 @@
-import Form from "@/components/Form";
+import DSNForm from "@/components/DSNForm";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
             define connection configs in e.g. <a className="underline" href="https://cakephp.org" target="_blank">CakePHP</a>
           </p>
         </div>
-        <Form/>
+        <DSNForm/>
         <div className="text-center text-white mt-10 text-xs">
           <p>
             All data is generated client-side.<br/>

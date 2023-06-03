@@ -7,7 +7,7 @@ import FormInput from "@/components/FormInput";
 import FormSelect from "@/components/FormSelect";
 import Optional from "@/components/Optional";
 
-export default function Form() {
+export default function DSNForm() {
 
     const [port, setPort] = useState<number|null>(3306);
     const [dsnString, setDsnString] = useState('');
