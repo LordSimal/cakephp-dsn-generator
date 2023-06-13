@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.0",
     "eslint": "^8.35",
     "eslint-config-next": "^13.2.1",
+    "google-timezones-json": "^1.1.0",
     "next": "^13.2.1",
     "react": "^18.2",
     "react-dom": "^18.2",
