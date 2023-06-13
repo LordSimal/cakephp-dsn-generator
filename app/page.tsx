@@ -15,6 +15,7 @@ export default function Home() {
         <div className="text-center text-white mt-10 text-xs">
           <p>
             All data is generated client-side.<br/>
+            No data stored, neither on webserver or your browser.<br/>
             Don&apos;t trust me? Check out the repo on <a className="underline" href="https://github.com/LordSimal/cakephp-dsn-generator" target="_blank">Github</a></p>
         </div>
       </div>
