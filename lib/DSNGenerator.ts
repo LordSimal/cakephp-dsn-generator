@@ -31,6 +31,9 @@ export function generateDSN(form: DSNForm, showPort: boolean, showUserPass: bool
   if (form.init?.value) {
     params.push('init[]=' + form.init.value + '');
   }
+  if (form.enable_querylogging?.checked) {
+    params.push('log=true');
+  }
 
   let result = `${data.dbms}://`;
   if (data.username && data.password) {

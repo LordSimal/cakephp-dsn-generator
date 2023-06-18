@@ -29,6 +29,7 @@ export default function Optional({isPostgres}:{isPostgres: boolean})  {
         />
 
         <FormInput type="text" name="init" className="col-span-6" label="SQL init command"/>
+        <FormInput type="checkbox" name="enable_querylogging" className="col-span-6 flex items-center" label="Enable query logging"/>
 
       </div>
     </details>

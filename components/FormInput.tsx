@@ -11,14 +11,14 @@ export default function FormInput({type, name, className, required=false, label=
 
   return (
     <div className={className}>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}</label>
+      <label htmlFor={name} className={`${type !== 'checkbox' ? "block" : ""} text-sm font-medium text-gray-700`}>{label}</label>
       <input
         type={type}
         name={name}
         id={name}
         autoComplete={name}
         required={required}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+        className={`${type !== 'checkbox' ? "block w-full" : "mr-3 order-first"} rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm`}
         {...otherAttrs}
       />
     </div>

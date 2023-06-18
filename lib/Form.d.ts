@@ -7,5 +7,6 @@ type DSNForm = {
   database: HTMLInputElement,
   schema: HTMLInputElement|undefined,
   timezone: HTMLInputElement|undefined,
-  init: HTMLInputElement|undefined
+  init: HTMLInputElement|undefined,
+  enable_querylogging: HTMLInputElement|undefined
 };
