@@ -28,6 +28,8 @@ export default function Optional({isPostgres}:{isPostgres: boolean})  {
                     options={myTimezones}
         />
 
+        <FormInput type="text" name="init" className="col-span-6" label="SQL init command"/>
+
       </div>
     </details>
   )

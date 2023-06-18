@@ -6,6 +6,7 @@ import Copy from "@/components/Copy";
 import FormInput from "@/components/FormInput";
 import FormSelect from "@/components/FormSelect";
 import Optional from "@/components/Optional";
+import {generateDSN} from "@/lib/DSNGenerator";
 
 export default function DSNForm() {
 
@@ -43,48 +44,7 @@ export default function DSNForm() {
 
     const onSubmitFunc = (e: any) => {
         e.preventDefault()
-
-        let params = [];
-        const data = {
-            dbms: e.target.dbms.value,
-            server: e.target.server.value,
-            port: undefined,
-            username: undefined,
-            password: undefined,
-            database: e.target.database.value,
-            schema: undefined,
-            timezone: undefined
-        };
-
-        if (showPort) {
-            data.port = e.target.port.value;
-        }
-        if (showUserPass) {
-            data.username = e.target.username.value;
-            data.password = e.target.password.value;
-        }
-        if (e.target.schema?.value) {
-            params.push('schema=' + e.target.schema.value);
-        }
-        if (e.target.timezone?.value) {
-            params.push('timezone=' + e.target.timezone.value);
-        }
-
-        let result = `${data.dbms}://`;
-        if (data.username && data.password) {
-            result += `${data.username}:${data.password}@`;
-        }
-        result += `${data.server}`;
-
-        if (data.port) {
-            result += `:${data.port}`;
-        }
-        result += `/${data.database}`;
-
-        if (params.length) {
-            result += `?` + params.join('&');
-        }
-
+        let result = generateDSN(e.target, showPort, showUserPass);
         setDsnString(result);
     }
 
