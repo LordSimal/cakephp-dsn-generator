@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "test:e2e": "playwright test"
   },
   "dependencies": {
     "@types/node": "^20.0",
     "@types/react": "^18.0",
     "@types/react-dom": "^18.0",
-    "eslint": "^8.35",
+    "eslint": "^8.43.0",
     "eslint-config-next": "^13.2.1",
     "google-timezones-json": "^1.1.0",
     "next": "^13.2.1",
@@ -23,10 +24,11 @@
     "typescript": "^5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.15.0",
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
+    "eslint-config-airbnb-base": "^15.0.0",
     "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7",
-    "@playwright/test": "^1.15.0"
+    "tailwindcss": "^3.2.7"
   }
 }

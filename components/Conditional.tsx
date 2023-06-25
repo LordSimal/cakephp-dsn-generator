@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import {ReactNode} from "react";
+import { ReactNode } from 'react';
 
 const Conditional = ({
   showWhen,
-  children
+  children,
 }: {
   showWhen: boolean,
   children: ReactNode
 }) => {
-  if (showWhen) return <>{children}</>
-  return <></>
-}
+  if (showWhen) return <>{children}</>;
+  return <></>;
+};
 
 export default Conditional;

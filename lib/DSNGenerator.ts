@@ -1,6 +1,8 @@
-export function generateDSN(form: DSNForm, showPort: boolean, showUserPass: boolean){
-  let params = [];
-  let data = {
+import { DSNForm } from '@/lib/Form';
+
+function generateDSN(form: DSNForm, showPort: boolean, showUserPass: boolean) {
+  const params = [];
+  const data = {
     dbms: form.dbms.value,
     server: form.server.value,
     port: undefined,
@@ -23,13 +25,13 @@ export function generateDSN(form: DSNForm, showPort: boolean, showUserPass: bool
     data.password = form.password.value;
   }
   if (form.schema?.value) {
-    params.push('schema=' + form.schema.value);
+    params.push(`schema=${form.schema.value}`);
   }
   if (form.timezone?.value) {
-    params.push('timezone=' + form.timezone.value);
+    params.push(`timezone=${form.timezone.value}`);
   }
   if (form.init?.value) {
-    params.push('init[]=' + form.init.value + '');
+    params.push(`init[]=${form.init.value}`);
   }
   if (form.enable_querylogging?.checked) {
     params.push('log=true');
@@ -47,8 +49,10 @@ export function generateDSN(form: DSNForm, showPort: boolean, showUserPass: bool
   result += `/${data.database}`;
 
   if (params.length) {
-    result += `?` + params.join('&');
+    result += `?${params.join('&')}`;
   }
 
   return result;
 }
+
+export default generateDSN;

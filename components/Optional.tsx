@@ -1,16 +1,15 @@
-import Conditional from "@/components/Conditional";
-import FormInput from "@/components/FormInput";
-import FormSelect from "@/components/FormSelect";
+import Conditional from '@/components/Conditional';
+import FormInput from '@/components/FormInput';
+import FormSelect from '@/components/FormSelect';
 // @ts-ignore
 import timezones from 'google-timezones-json';
 
-export default function Optional({isPostgres}:{isPostgres: boolean})  {
-
+export default function Optional({ isPostgres }:{isPostgres: boolean}) {
   // let defaultTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  let emptyOption = {'': 'None'};
-  let myTimezones = {
+  const emptyOption = { '': 'None' };
+  const myTimezones = {
     ...emptyOption,
-    ...timezones
+    ...timezones,
   };
 
   return (
@@ -33,5 +32,5 @@ export default function Optional({isPostgres}:{isPostgres: boolean})  {
 
       </div>
     </details>
-  )
+  );
 }

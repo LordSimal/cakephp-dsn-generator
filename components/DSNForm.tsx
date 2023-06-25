@@ -1,54 +1,53 @@
 'use client';
 
-import {useState} from "react";
-import Conditional from "@/components/Conditional";
-import Copy from "@/components/Copy";
-import FormInput from "@/components/FormInput";
-import FormSelect from "@/components/FormSelect";
-import Optional from "@/components/Optional";
-import {generateDSN} from "@/lib/DSNGenerator";
+import { useState } from 'react';
+import Conditional from '@/components/Conditional';
+import Copy from '@/components/Copy';
+import FormInput from '@/components/FormInput';
+import FormSelect from '@/components/FormSelect';
+import Optional from '@/components/Optional';
+import generateDSN from '@/lib/DSNGenerator';
 
 export default function DSNForm() {
+  const [port, setPort] = useState<number|null>(3306);
+  const [dsnString, setDsnString] = useState('');
+  const [showPort, setShowPort] = useState(true);
+  const [showUserPass, setShowUserPass] = useState(true);
+  const [isPostgres, setIsPostgres] = useState(false);
 
-    const [port, setPort] = useState<number|null>(3306);
-    const [dsnString, setDsnString] = useState('');
-    const [showPort, setShowPort] = useState(true);
-    const [showUserPass, setShowUserPass] = useState(true);
-    const [isPostgres, setIsPostgres] = useState(false);
-
-    const onDbmsSelect = (e: any) => {
-        let value = e.target.value;
-        if (value === 'sqlite') {
-            setShowUserPass(false);
-            setPort(null);
-            setShowPort(false);
-            setIsPostgres(false);
-        } else if(value === 'mysql') {
-            setShowUserPass(true);
-            setPort(3306);
-            setShowPort(true);
-            setIsPostgres(false);
-        } else if(value === 'postgres') {
-            setShowUserPass(true);
-            setPort(5432);
-            setShowPort(true);
-            setIsPostgres(true);
-        } else if(value === 'sqlserver') {
-            setShowUserPass(true);
-            setPort(1433);
-            setShowPort(true);
-            setIsPostgres(false);
-        }
-        setDsnString('');
+  const onDbmsSelect = (e: any) => {
+    const { value } = e.target;
+    if (value === 'sqlite') {
+      setShowUserPass(false);
+      setPort(null);
+      setShowPort(false);
+      setIsPostgres(false);
+    } else if (value === 'mysql') {
+      setShowUserPass(true);
+      setPort(3306);
+      setShowPort(true);
+      setIsPostgres(false);
+    } else if (value === 'postgres') {
+      setShowUserPass(true);
+      setPort(5432);
+      setShowPort(true);
+      setIsPostgres(true);
+    } else if (value === 'sqlserver') {
+      setShowUserPass(true);
+      setPort(1433);
+      setShowPort(true);
+      setIsPostgres(false);
     }
+    setDsnString('');
+  };
 
-    const onSubmitFunc = (e: any) => {
-        e.preventDefault()
-        let result = generateDSN(e.target, showPort, showUserPass);
-        setDsnString(result);
-    }
+  const onSubmitFunc = (e: any) => {
+    e.preventDefault();
+    const result = generateDSN(e.target, showPort, showUserPass);
+    setDsnString(result);
+  };
 
-    return (
+  return (
         <form action="/" method="post" onSubmit={onSubmitFunc}>
             <div className="overflow-hidden bg-white px-4 py-5 sm:p-6 shadow rounded">
                 <div className="grid grid-cols-6 gap-6">
@@ -57,17 +56,17 @@ export default function DSNForm() {
                                 label="DBMS"
                                 className="col-span-6"
                                 options={{
-                                    'mysql': 'MySQL/MariaDB',
-                                    'postgres': 'PostgreSQL',
-                                    'sqlite': 'SQLite',
-                                    'sqlserver': 'MS SQL/SQL Server'
+                                  mysql: 'MySQL/MariaDB',
+                                  postgres: 'PostgreSQL',
+                                  sqlite: 'SQLite',
+                                  sqlserver: 'MS SQL/SQL Server',
                                 }}
                                 onChange={onDbmsSelect}
                     />
 
-                    <FormInput type="text" name="server" className={`${showPort ? "col-span-4" : "col-span-6"}`} label="Server" otherAttrs={{defaultValue: 'localhost'}}/>
+                    <FormInput type="text" name="server" className={`${showPort ? 'col-span-4' : 'col-span-6'}`} label="Server" otherAttrs={{ defaultValue: 'localhost' }}/>
                     <Conditional showWhen={showPort}>
-                        <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{min: 0, step: 1, defaultValue:port ?? ''}}/>
+                        <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{ min: 0, step: 1, defaultValue: port ?? '' }}/>
                     </Conditional>
 
                     <Conditional showWhen={showUserPass}>
@@ -93,5 +92,5 @@ export default function DSNForm() {
                 </div>
             </div>
         </form>
-    )
+  );
 }

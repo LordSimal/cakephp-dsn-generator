@@ -1,4 +1,4 @@
-type DSNForm = {
+export type DSNForm = {
   dbms: HTMLInputElement
   server: HTMLInputElement,
   port: HTMLInputElement|undefined,

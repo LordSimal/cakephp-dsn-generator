@@ -1,8 +1,10 @@
-'use client'
+'use client';
 
-import React, {ChangeEventHandler} from "react";
+import React, { ChangeEventHandler } from 'react';
 
-export default function FormSelect({name, options, className, required=false, label='My Label', otherAttrs={}, onChange=null, value=null}: {
+export default function FormSelect({
+  name, options, className, required = false, label = 'My Label', otherAttrs = {}, onChange = null, value = null,
+}: {
   name: string,
   options: object,
   className?: string,
@@ -12,11 +14,11 @@ export default function FormSelect({name, options, className, required=false, la
   onChange?: ChangeEventHandler|null,
   value?: any
 }) {
-
   if (!onChange) {
+    // eslint-disable-next-line no-param-reassign,func-names
     onChange = function () {
       return true;
-    }
+    };
   }
 
   return (
@@ -32,12 +34,11 @@ export default function FormSelect({name, options, className, required=false, la
         defaultValue={value}
         {...otherAttrs}
       >
-        {Object.keys(options).map(key => (
+        {Object.keys(options).map((key) => (
           // @ts-ignore
           <option key={key} value={key}>{options[key]}</option>
         ))}
       </select>
     </div>
-  )
-
+  );
 }
