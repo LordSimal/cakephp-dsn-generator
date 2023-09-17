@@ -13,6 +13,7 @@ export default function DSNForm() {
   const [dsnString, setDsnString] = useState('');
   const [showPort, setShowPort] = useState(true);
   const [showUserPass, setShowUserPass] = useState(true);
+  const [showOptional, setShowOptional] = useState(true);
   const [isPostgres, setIsPostgres] = useState(false);
 
   const onDbmsSelect = (e: any) => {
@@ -22,21 +23,31 @@ export default function DSNForm() {
       setPort(null);
       setShowPort(false);
       setIsPostgres(false);
+      setShowOptional(true);
     } else if (value === 'mysql') {
       setShowUserPass(true);
       setPort(3306);
       setShowPort(true);
       setIsPostgres(false);
+      setShowOptional(true);
     } else if (value === 'postgres') {
       setShowUserPass(true);
       setPort(5432);
       setShowPort(true);
       setIsPostgres(true);
+      setShowOptional(true);
     } else if (value === 'sqlserver') {
       setShowUserPass(true);
       setPort(1433);
       setShowPort(true);
       setIsPostgres(false);
+      setShowOptional(true);
+    } else if (value === 'redis') {
+      setShowUserPass(true);
+      setPort(6379);
+      setShowPort(true);
+      setIsPostgres(false);
+      setShowOptional(false);
     }
     setDsnString('');
   };
@@ -53,13 +64,14 @@ export default function DSNForm() {
                 <div className="grid grid-cols-6 gap-6">
 
                     <FormSelect name="dbms"
-                                label="DBMS"
+                                label="Connection Type"
                                 className="col-span-6"
                                 options={{
                                   mysql: 'MySQL/MariaDB',
                                   postgres: 'PostgreSQL',
                                   sqlite: 'SQLite',
                                   sqlserver: 'MS SQL/SQL Server',
+                                  redis: 'Redis',
                                 }}
                                 onChange={onDbmsSelect}
                     />
@@ -78,7 +90,9 @@ export default function DSNForm() {
 
                 </div>
 
-                <Optional isPostgres={isPostgres}/>
+                <Conditional showWhen={showOptional}>
+                  <Optional isPostgres={isPostgres}/>
+                </Conditional>
 
                 <Conditional showWhen={dsnString !== ''}>
                     <Copy text={dsnString}></Copy>
