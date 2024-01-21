@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import Conditional from '@/components/Conditional';
 import Copy from '@/components/Copy';
 import FormInput from '@/components/FormInput';
@@ -15,6 +15,7 @@ export default function DSNForm() {
   const [showUserPass, setShowUserPass] = useState(true);
   const [showOptional, setShowOptional] = useState(true);
   const [isPostgres, setIsPostgres] = useState(false);
+  const [cleanValues, setCleanValues] = useState(false);
 
   const onDbmsSelect = (e: any) => {
     const { value } = e.target;
@@ -50,6 +51,7 @@ export default function DSNForm() {
       setShowOptional(false);
     }
     setDsnString('');
+    setCleanValues(true);
   };
 
   const onSubmitFunc = (e: any) => {
@@ -57,6 +59,13 @@ export default function DSNForm() {
     const result = generateDSN(e.target, showPort, showUserPass);
     setDsnString(result);
   };
+
+  // Reset clean values state after cleaning is done
+  useEffect(() => {
+    if (cleanValues) {
+      setCleanValues(false);
+    }
+  }, [cleanValues]);
 
   return (
         <form action="/" method="post" onSubmit={onSubmitFunc}>
@@ -76,17 +85,17 @@ export default function DSNForm() {
                                 onChange={onDbmsSelect}
                     />
 
-                    <FormInput type="text" name="server" className={`${showPort ? 'col-span-4' : 'col-span-6'}`} label="Server" otherAttrs={{ defaultValue: 'localhost' }}/>
+                    <FormInput type="text" name="server" className={`${showPort ? 'col-span-4' : 'col-span-6'}`} label="Server" otherAttrs={{ initialValue: 'localhost' }} cleanValue={cleanValues}/>
                     <Conditional showWhen={showPort}>
-                        <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{ min: 0, step: 1, defaultValue: port ?? '' }}/>
+                        <FormInput type="number" name="port" className="col-span-2" label="Port" otherAttrs={{ min: 0, step: 1, initialValue: port ?? '' }} cleanValue={cleanValues}/>
                     </Conditional>
 
                     <Conditional showWhen={showUserPass}>
-                        <FormInput type="text" name="username" className="col-span-6" label="Username"/>
-                        <FormInput type="password" name="password" className="col-span-6" label="Password"/>
+                        <FormInput type="text" name="username" className="col-span-6" label="Username" cleanValue={cleanValues}/>
+                        <FormInput type="password" name="password" className="col-span-6" label="Password" cleanValue={cleanValues}/>
                     </Conditional>
 
-                    <FormInput type="text" name="database" className="col-span-6" label="Database" required={true}/>
+                    <FormInput type="text" name="database" className="col-span-6" label="Database" required={true} cleanValue={cleanValues}/>
 
                 </div>
 
