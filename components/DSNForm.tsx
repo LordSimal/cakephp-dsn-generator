@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Conditional from '@/components/Conditional';
 import Copy from '@/components/Copy';
 import FormInput from '@/components/FormInput';
@@ -100,7 +100,7 @@ export default function DSNForm() {
                 </div>
 
                 <Conditional showWhen={showOptional}>
-                  <Optional isPostgres={isPostgres}/>
+                  <Optional isPostgres={isPostgres} cleanValue={cleanValues}/>
                 </Conditional>
 
                 <Conditional showWhen={dsnString !== ''}>

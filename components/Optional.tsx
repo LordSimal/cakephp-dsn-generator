@@ -4,7 +4,10 @@ import FormSelect from '@/components/FormSelect';
 // @ts-ignore
 import timezones from 'google-timezones-json';
 
-export default function Optional({ isPostgres }:{isPostgres: boolean}) {
+export default function Optional({ isPostgres, cleanValue = false }:{
+  isPostgres: boolean,
+  cleanValue: boolean
+}) {
   // let defaultTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const emptyOption = { '': 'None' };
   const myTimezones = {
@@ -18,7 +21,7 @@ export default function Optional({ isPostgres }:{isPostgres: boolean}) {
       <div className="bg-white text-sm font-light grid grid-cols-6 gap-6 mt-3">
 
         <Conditional showWhen={isPostgres}>
-          <FormInput type="text" name="schema" className="col-span-6" label="Schema"/>
+          <FormInput type="text" name="schema" className="col-span-6" label="Schema" cleanValue={cleanValue}/>
         </Conditional>
 
         <FormSelect name="timezone"
@@ -27,8 +30,8 @@ export default function Optional({ isPostgres }:{isPostgres: boolean}) {
                     options={myTimezones}
         />
 
-        <FormInput type="text" name="init" className="col-span-6" label="SQL init command"/>
-        <FormInput type="checkbox" name="enable_querylogging" className="col-span-6 flex items-center" label="Enable query logging"/>
+        <FormInput type="text" name="init" className="col-span-6" label="SQL init command" cleanValue={cleanValue}/>
+        <FormInput type="checkbox" name="enable_querylogging" className="col-span-6 flex items-center" label="Enable query logging" cleanValue={cleanValue}/>
 
       </div>
     </details>
