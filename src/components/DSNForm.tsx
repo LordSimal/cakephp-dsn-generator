@@ -6,7 +6,7 @@ import Copy from '@/components/Generics/Copy';
 import FormInput from '@/components/Generics/FormInput';
 import FormSelect from '@/components/Generics/FormSelect';
 import Optional from '@/components/Optional';
-import generateDSN from '@/lib/DSNGenerator';
+import { generateDSN, getFormVisibility } from '@/lib/DSNGenerator';
 
 export default function DSNForm() {
   const [port, setPort] = useState<number | null>(3306);
@@ -19,37 +19,12 @@ export default function DSNForm() {
 
   const onDbmsSelect = (e: any) => {
     const { value } = e.target;
-    if (value === 'sqlite') {
-      setShowUserPass(false);
-      setPort(null);
-      setShowPort(false);
-      setIsPostgres(false);
-      setShowOptional(true);
-    } else if (value === 'mysql') {
-      setShowUserPass(true);
-      setPort(3306);
-      setShowPort(true);
-      setIsPostgres(false);
-      setShowOptional(true);
-    } else if (value === 'postgres') {
-      setShowUserPass(true);
-      setPort(5432);
-      setShowPort(true);
-      setIsPostgres(true);
-      setShowOptional(true);
-    } else if (value === 'sqlserver') {
-      setShowUserPass(true);
-      setPort(1433);
-      setShowPort(true);
-      setIsPostgres(false);
-      setShowOptional(true);
-    } else if (value === 'redis') {
-      setShowUserPass(true);
-      setPort(6379);
-      setShowPort(true);
-      setIsPostgres(false);
-      setShowOptional(false);
-    }
+    const formVisibility = getFormVisibility(value);
+    setShowUserPass(formVisibility.showUserPass);
+    setPort(formVisibility.port);
+    setShowPort(formVisibility.showPort);
+    setIsPostgres(formVisibility.showIsPostgres);
+    setShowOptional(formVisibility.showOptional);
     setDsnString('');
     setCleanValues(true);
   };

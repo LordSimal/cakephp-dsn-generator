@@ -1,6 +1,11 @@
-import { DSNForm } from '@/lib/Form';
+import { DSNFormType } from '@/lib/DSNFormType';
+import { FormStateType } from '@/lib/FormStateType';
 
-function generateDSN(form: DSNForm, showPort: boolean, showUserPass: boolean) {
+export function generateDSN(
+  form: DSNFormType,
+  showPort: boolean,
+  showUserPass: boolean
+) {
   const params = [];
   const data = {
     dbms: form.dbms.value,
@@ -55,4 +60,49 @@ function generateDSN(form: DSNForm, showPort: boolean, showUserPass: boolean) {
   return result;
 }
 
-export default generateDSN;
+export function getFormVisibility(dbms: string): FormStateType {
+  switch (dbms) {
+    case 'sqlite':
+      return {
+        showUserPass: false,
+        port: null,
+        showPort: false,
+        showIsPostgres: false,
+        showOptional: true,
+      };
+    case 'mysql':
+      return {
+        showUserPass: true,
+        port: 3306,
+        showPort: true,
+        showIsPostgres: false,
+        showOptional: true,
+      };
+    case 'postgres':
+      return {
+        showUserPass: true,
+        port: 5432,
+        showPort: true,
+        showIsPostgres: true,
+        showOptional: true,
+      };
+    case 'sqlserver':
+      return {
+        showUserPass: true,
+        port: 1433,
+        showPort: true,
+        showIsPostgres: false,
+        showOptional: true,
+      };
+    case 'redis':
+      return {
+        showUserPass: true,
+        port: 6379,
+        showPort: true,
+        showIsPostgres: false,
+        showOptional: false,
+      };
+    default:
+      throw new Error('Invalid DBMS');
+  }
+}
