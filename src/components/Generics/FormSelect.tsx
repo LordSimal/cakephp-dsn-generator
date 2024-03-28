@@ -44,8 +44,8 @@ export default function FormSelect({
         {...otherAttrs}
       >
         {Object.keys(options).map((key) => (
-          // @ts-ignore
           <option key={key} value={key}>
+            {/* @ts-ignore */}
             {options[key]}
           </option>
         ))}
