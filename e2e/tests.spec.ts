@@ -16,7 +16,9 @@ test('simple mysql/mariadb', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('mysql://myusername:somepassword@mysql.server.local:3306/db');
+  await expect(result).toContainText(
+    'mysql://myusername:somepassword@mysql.server.local:3306/db'
+  );
 });
 
 test('simple postgresql', async ({ page }) => {
@@ -30,7 +32,9 @@ test('simple postgresql', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('postgres://myusername:somepassword@psql.server.local:5432/db');
+  await expect(result).toContainText(
+    'postgres://myusername:somepassword@psql.server.local:5432/db'
+  );
 });
 
 test('simple sqlite', async ({ page }) => {
@@ -58,7 +62,9 @@ test('simple ms sql server', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('sqlserver://myusername:somepassword@mssql.server.local:1433/db');
+  await expect(result).toContainText(
+    'sqlserver://myusername:somepassword@mssql.server.local:1433/db'
+  );
 });
 
 test('postgresql with custom schema', async ({ page }) => {
@@ -76,7 +82,9 @@ test('postgresql with custom schema', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('postgres://myusername:somepassword@psql.server.local:5432/db?schema=non_app');
+  await expect(result).toContainText(
+    'postgres://myusername:somepassword@psql.server.local:5432/db?schema=non_app'
+  );
 });
 
 test('mysql/mariadb with timezone', async ({ page }) => {
@@ -93,7 +101,9 @@ test('mysql/mariadb with timezone', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('mysql://myusername:somepassword@mysql.server.local:3306/db?timezone=Europe/Vienna');
+  await expect(result).toContainText(
+    'mysql://myusername:somepassword@mysql.server.local:3306/db?timezone=Europe/Vienna'
+  );
 });
 
 test('mysql/mariadb with SQL init command', async ({ page }) => {
@@ -110,7 +120,9 @@ test('mysql/mariadb with SQL init command', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('mysql://myusername:somepassword@mysql.server.local:3306/db?init[]=SET sql_mode=""');
+  await expect(result).toContainText(
+    'mysql://myusername:somepassword@mysql.server.local:3306/db?init[]=SET sql_mode=""'
+  );
 });
 
 test('mysql/mariadb with enable query logging', async ({ page }) => {
@@ -127,7 +139,9 @@ test('mysql/mariadb with enable query logging', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('mysql://myusername:somepassword@mysql.server.local:3306/db?log=true');
+  await expect(result).toContainText(
+    'mysql://myusername:somepassword@mysql.server.local:3306/db?log=true'
+  );
 });
 
 test('simple redis', async ({ page }) => {
@@ -141,7 +155,9 @@ test('simple redis', async ({ page }) => {
 
   const result = page.locator('.result-container');
   await expect(result).toBeVisible();
-  await expect(result).toContainText('redis://myusername:somepassword@127.0.0.1:6379/1');
+  await expect(result).toContainText(
+    'redis://myusername:somepassword@127.0.0.1:6379/1'
+  );
 });
 
 test('check default port changing correctly', async ({ page }) => {

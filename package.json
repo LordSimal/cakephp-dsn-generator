@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@types/node": "^20.0",
@@ -28,7 +30,10 @@
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7"
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.2.7",
+    "prettier-plugin-tailwindcss": "^0.5.13"
   }
 }
