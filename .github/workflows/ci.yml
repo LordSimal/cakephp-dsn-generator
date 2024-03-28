@@ -21,3 +21,5 @@ jobs:
         run: npm run test:e2e
       - name: Lint
         run: npm run lint
+      - name: Prettier
+        run: npm run format
