@@ -2,6 +2,6 @@
 cd ~/cakephp-dsn-generator
 git checkout .
 git pull
-npm i
-npm run build
+pnpm i
+pnpm run build
 pm2 restart dsn-generator
