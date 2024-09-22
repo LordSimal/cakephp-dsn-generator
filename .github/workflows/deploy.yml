@@ -13,4 +13,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            bash ~/cakephp-dsn-generator/deploy.sh
+            /bin/zsh ~/cakephp-dsn-generator/deploy.sh
