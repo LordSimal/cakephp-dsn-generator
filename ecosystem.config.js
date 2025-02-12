@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'dsngenerator',
-      script: 'pnpm',
+      name: 'dsn-generator',
+      script: 'npm',
       args: 'start',
       env: {
         NODE_ENV: 'production',

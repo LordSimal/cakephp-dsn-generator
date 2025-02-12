@@ -13,14 +13,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 22
-      - uses: pnpm/action-setup@v3
       - name: Install dependencies
-        run: pnpm i
+        run: npm i
       - name: Install Playwright Browsers
-        run: pnpx playwright install --with-deps
+        run: npx playwright install --with-deps
       - name: Playwright tests
-        run: pnpm run test:e2e
+        run: npm run test:e2e
       - name: Lint
-        run: pnpm run lint
+        run: npm run lint
       - name: Prettier
-        run: pnpm run format
+        run: npm run format
