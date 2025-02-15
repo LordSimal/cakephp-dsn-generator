@@ -10,3 +10,11 @@ export type DSNFormType = {
   init: HTMLInputElement | undefined;
   enable_querylogging: HTMLInputElement | undefined;
 };
+
+export type FormStateType = {
+  showUserPass: boolean;
+  port: number | null;
+  showPort: boolean;
+  showIsPostgres: boolean;
+  showOptional: boolean;
+};

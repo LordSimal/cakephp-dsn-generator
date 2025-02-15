@@ -65,7 +65,7 @@ export default function DSNForm() {
             name='server'
             className={`${showPort ? 'col-span-4' : 'col-span-6'}`}
             label='Server'
-            otherAttrs={{ initialValue: 'localhost' }}
+            initialValue={'localhost'}
             cleanValue={cleanValues}
           />
           <Conditional showWhen={showPort}>
@@ -74,7 +74,8 @@ export default function DSNForm() {
               name='port'
               className='col-span-2'
               label='Port'
-              otherAttrs={{ min: 0, step: 1, initialValue: port ?? '' }}
+              otherAttrs={{ min: 0, step: 1 }}
+              initialValue={port?.toString() ?? ''}
               cleanValue={cleanValues}
             />
           </Conditional>

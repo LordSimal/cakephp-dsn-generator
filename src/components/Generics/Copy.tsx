@@ -24,16 +24,14 @@ export default function Copy({
     });
   };
   return (
-    <div className={`${s.field} relative`}>
-      <div className='result-container mb-5 text-ellipsis rounded border border-green-500 p-2 text-center text-xl'>
+    <div className={`relative bg-white`}>
+      <div className='result-container mb-5 overflow-x-scroll rounded border border-green-500 p-2 text-center text-xl'>
         {text}
       </div>
       <Conditional showWhen={!disabled}>
         <button
           className='w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
-          onClick={() => {
-            copy(text);
-          }}
+          onClick={() => copy(text)}
           aria-label={label}
         >
           {label}
@@ -43,9 +41,7 @@ export default function Copy({
         <div
           className={`fixed right-0 top-1/2 z-30 overflow-hidden p-4 ${copied ? `${s.active}` : ''} ${s.toast}`}
         >
-          <div
-            className={`${s.toastInner} rounded border-l-4 px-4 py-2 shadow-lg`}
-          >
+          <div className={`rounded border-l-4 bg-white px-4 py-2 shadow-lg`}>
             Copied to clipboard!
           </div>
         </div>

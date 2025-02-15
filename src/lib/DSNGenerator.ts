@@ -1,5 +1,4 @@
-import { DSNFormType } from '@/lib/DSNFormType';
-import { FormStateType } from '@/lib/FormStateType';
+import { DSNFormType, FormStateType } from '@/types';
 
 export function generateDSN(
   form: DSNFormType,

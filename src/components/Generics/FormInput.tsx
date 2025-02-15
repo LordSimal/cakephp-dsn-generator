@@ -10,6 +10,7 @@ export default function FormInput({
   label = 'Copy',
   otherAttrs = {},
   cleanValue = false,
+  initialValue = '',
 }: {
   type: string;
   name: string;
@@ -18,35 +19,27 @@ export default function FormInput({
   label?: string;
   otherAttrs?: any;
   cleanValue: boolean;
+  initialValue?: string;
 }) {
   const [value, setValue] = useState('');
 
   const domAttrs = otherAttrs;
 
-  /**
-   * @param event
-   */
   const handleChange = (event: any) => {
-    if (event.target.value !== '') {
-      setValue(event.target.value);
-    } else if (otherAttrs.initialValue) {
-      setValue(otherAttrs.initialValue);
-    }
+    setValue(event.target.value);
   };
 
   useEffect(() => {
     if (cleanValue) {
       setValue('');
+      if (initialValue) {
+        setValue(initialValue);
+      }
     }
-    if (domAttrs.initialValue && cleanValue) {
-      setValue(otherAttrs.initialValue);
-    }
-  }, [cleanValue, domAttrs, otherAttrs]);
+  }, [cleanValue, initialValue]);
 
-  // Remove invalid HTML attributes
-  if (domAttrs.initialValue && value === '') {
-    setValue(otherAttrs.initialValue);
-    delete domAttrs.initialValue;
+  if (initialValue && value === '') {
+    setValue(initialValue);
   }
 
   return (
