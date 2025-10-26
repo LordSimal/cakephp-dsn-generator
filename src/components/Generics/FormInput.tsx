@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 export default function FormInput({
   type,
@@ -12,34 +12,35 @@ export default function FormInput({
   cleanValue = false,
   initialValue = '',
 }: {
-  type: string;
-  name: string;
-  className?: string;
-  required?: boolean;
-  label?: string;
-  otherAttrs?: any;
-  cleanValue: boolean;
-  initialValue?: string;
+  type: string
+  name: string
+  className?: string
+  required?: boolean
+  label?: string
+  otherAttrs?: any
+  cleanValue: boolean
+  initialValue?: string
 }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
 
-  const domAttrs = otherAttrs;
+  const domAttrs = otherAttrs
 
   const handleChange = (event: any) => {
-    setValue(event.target.value);
-  };
+    setValue(event.target.value)
+  }
 
   useEffect(() => {
     if (cleanValue) {
-      setValue('');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setValue('')
       if (initialValue) {
-        setValue(initialValue);
+        setValue(initialValue)
       }
     }
-  }, [cleanValue, initialValue]);
+  }, [cleanValue, initialValue])
 
   if (initialValue && value === '') {
-    setValue(initialValue);
+    setValue(initialValue)
   }
 
   return (
@@ -62,5 +63,5 @@ export default function FormInput({
         {...domAttrs}
       />
     </div>
-  );
+  )
 }

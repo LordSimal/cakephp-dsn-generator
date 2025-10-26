@@ -1,11 +1,11 @@
-import { DSNFormType, FormStateType } from '@/types';
+import { DSNFormType, FormStateType } from '@/types'
 
 export function generateDSN(
   form: DSNFormType,
   showPort: boolean,
-  showUserPass: boolean
+  showUserPass: boolean,
 ) {
-  const params = [];
+  const params = []
   const data = {
     dbms: form.dbms.value,
     server: form.server.value,
@@ -16,47 +16,47 @@ export function generateDSN(
     schema: undefined,
     timezone: undefined,
     init: undefined,
-  };
+  }
 
   if (showPort && form.port) {
     // @ts-ignore
-    data.port = form.port.value;
+    data.port = form.port.value
   }
   if (showUserPass && form.username && form.password) {
     // @ts-ignore
-    data.username = form.username.value;
+    data.username = form.username.value
     // @ts-ignore
-    data.password = form.password.value;
+    data.password = form.password.value
   }
   if (form.schema?.value) {
-    params.push(`schema=${form.schema.value}`);
+    params.push(`schema=${form.schema.value}`)
   }
   if (form.timezone?.value) {
-    params.push(`timezone=${form.timezone.value}`);
+    params.push(`timezone=${form.timezone.value}`)
   }
   if (form.init?.value) {
-    params.push(`init[]=${form.init.value}`);
+    params.push(`init[]=${form.init.value}`)
   }
   if (form.enable_querylogging?.checked) {
-    params.push('log=true');
+    params.push('log=true')
   }
 
-  let result = `${data.dbms}://`;
+  let result = `${data.dbms}://`
   if (data.username && data.password) {
-    result += `${data.username}:${data.password}@`;
+    result += `${data.username}:${data.password}@`
   }
-  result += `${data.server}`;
+  result += `${data.server}`
 
   if (data.port) {
-    result += `:${data.port}`;
+    result += `:${data.port}`
   }
-  result += `/${data.database}`;
+  result += `/${data.database}`
 
   if (params.length) {
-    result += `?${params.join('&')}`;
+    result += `?${params.join('&')}`
   }
 
-  return result;
+  return result
 }
 
 export function getFormVisibility(dbms: string): FormStateType {
@@ -68,7 +68,7 @@ export function getFormVisibility(dbms: string): FormStateType {
         showPort: false,
         showIsPostgres: false,
         showOptional: true,
-      };
+      }
     case 'mysql':
       return {
         showUserPass: true,
@@ -76,7 +76,7 @@ export function getFormVisibility(dbms: string): FormStateType {
         showPort: true,
         showIsPostgres: false,
         showOptional: true,
-      };
+      }
     case 'postgres':
       return {
         showUserPass: true,
@@ -84,7 +84,7 @@ export function getFormVisibility(dbms: string): FormStateType {
         showPort: true,
         showIsPostgres: true,
         showOptional: true,
-      };
+      }
     case 'sqlserver':
       return {
         showUserPass: true,
@@ -92,7 +92,7 @@ export function getFormVisibility(dbms: string): FormStateType {
         showPort: true,
         showIsPostgres: false,
         showOptional: true,
-      };
+      }
     case 'redis':
       return {
         showUserPass: true,
@@ -100,8 +100,8 @@ export function getFormVisibility(dbms: string): FormStateType {
         showPort: true,
         showIsPostgres: false,
         showOptional: false,
-      };
+      }
     default:
-      throw new Error('Invalid DBMS');
+      throw new Error('Invalid DBMS')
   }
 }

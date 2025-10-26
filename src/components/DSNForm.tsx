@@ -1,55 +1,56 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import Conditional from '@/components/Generics/Conditional';
-import Copy from '@/components/Generics/Copy';
-import FormInput from '@/components/Generics/FormInput';
-import FormSelect from '@/components/Generics/FormSelect';
-import Optional from '@/components/Optional';
-import { generateDSN, getFormVisibility } from '@/lib/DSNGenerator';
+import { useEffect, useState } from 'react'
+import Conditional from '@/components/Generics/Conditional'
+import Copy from '@/components/Generics/Copy'
+import FormInput from '@/components/Generics/FormInput'
+import FormSelect from '@/components/Generics/FormSelect'
+import Optional from '@/components/Optional'
+import { generateDSN, getFormVisibility } from '@/lib/DSNGenerator'
 
 export default function DSNForm() {
-  const [port, setPort] = useState<number | null>(3306);
-  const [dsnString, setDsnString] = useState('');
-  const [showPort, setShowPort] = useState(true);
-  const [showUserPass, setShowUserPass] = useState(true);
-  const [showOptional, setShowOptional] = useState(true);
-  const [isPostgres, setIsPostgres] = useState(false);
-  const [cleanValues, setCleanValues] = useState(false);
+  const [port, setPort] = useState<number | null>(3306)
+  const [dsnString, setDsnString] = useState('')
+  const [showPort, setShowPort] = useState(true)
+  const [showUserPass, setShowUserPass] = useState(true)
+  const [showOptional, setShowOptional] = useState(true)
+  const [isPostgres, setIsPostgres] = useState(false)
+  const [cleanValues, setCleanValues] = useState(false)
 
   const onDbmsSelect = (e: any) => {
-    const { value } = e.target;
-    const formVisibility = getFormVisibility(value);
-    setShowUserPass(formVisibility.showUserPass);
-    setPort(formVisibility.port);
-    setShowPort(formVisibility.showPort);
-    setIsPostgres(formVisibility.showIsPostgres);
-    setShowOptional(formVisibility.showOptional);
-    setDsnString('');
-    setCleanValues(true);
-  };
+    const { value } = e.target
+    const formVisibility = getFormVisibility(value)
+    setShowUserPass(formVisibility.showUserPass)
+    setPort(formVisibility.port)
+    setShowPort(formVisibility.showPort)
+    setIsPostgres(formVisibility.showIsPostgres)
+    setShowOptional(formVisibility.showOptional)
+    setDsnString('')
+    setCleanValues(true)
+  }
 
   const onSubmitFunc = (e: any) => {
-    e.preventDefault();
-    const result = generateDSN(e.target, showPort, showUserPass);
-    setDsnString(result);
-  };
+    e.preventDefault()
+    const result = generateDSN(e.target, showPort, showUserPass)
+    setDsnString(result)
+  }
 
   // Reset clean values state after cleaning is done
   useEffect(() => {
     if (cleanValues) {
-      setCleanValues(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCleanValues(false)
     }
-  }, [cleanValues]);
+  }, [cleanValues])
 
   return (
-    <form action='/' method='post' onSubmit={onSubmitFunc}>
-      <div className='overflow-hidden rounded bg-white px-4 py-5 shadow sm:p-6'>
-        <div className='grid grid-cols-6 gap-6'>
+    <form action="/" method="post" onSubmit={onSubmitFunc}>
+      <div className="overflow-hidden rounded bg-white px-4 py-5 shadow sm:p-6">
+        <div className="grid grid-cols-6 gap-6">
           <FormSelect
-            name='dbms'
-            label='Connection Type'
-            className='col-span-6'
+            name="dbms"
+            label="Connection Type"
+            className="col-span-6"
             options={{
               mysql: 'MySQL/MariaDB',
               postgres: 'PostgreSQL',
@@ -61,19 +62,19 @@ export default function DSNForm() {
           />
 
           <FormInput
-            type='text'
-            name='server'
+            type="text"
+            name="server"
             className={`${showPort ? 'col-span-4' : 'col-span-6'}`}
-            label='Server'
+            label="Server"
             initialValue={'localhost'}
             cleanValue={cleanValues}
           />
           <Conditional showWhen={showPort}>
             <FormInput
-              type='number'
-              name='port'
-              className='col-span-2'
-              label='Port'
+              type="number"
+              name="port"
+              className="col-span-2"
+              label="Port"
               otherAttrs={{ min: 0, step: 1 }}
               initialValue={port?.toString() ?? ''}
               cleanValue={cleanValues}
@@ -82,26 +83,26 @@ export default function DSNForm() {
 
           <Conditional showWhen={showUserPass}>
             <FormInput
-              type='text'
-              name='username'
-              className='col-span-6'
-              label='Username'
+              type="text"
+              name="username"
+              className="col-span-6"
+              label="Username"
               cleanValue={cleanValues}
             />
             <FormInput
-              type='password'
-              name='password'
-              className='col-span-6'
-              label='Password'
+              type="password"
+              name="password"
+              className="col-span-6"
+              label="Password"
               cleanValue={cleanValues}
             />
           </Conditional>
 
           <FormInput
-            type='text'
-            name='database'
-            className='col-span-6'
-            label='Database'
+            type="text"
+            name="database"
+            className="col-span-6"
+            label="Database"
             required={true}
             cleanValue={cleanValues}
           />
@@ -115,15 +116,15 @@ export default function DSNForm() {
           <Copy text={dsnString}></Copy>
         </Conditional>
 
-        <div className='bg-gray-50 py-3 text-center'>
+        <div className="bg-gray-50 py-3 text-center">
           <button
-            type='submit'
-            className='w-full rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
+            type="submit"
+            className="w-full rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
             Generate
           </button>
         </div>
       </div>
     </form>
-  );
+  )
 }

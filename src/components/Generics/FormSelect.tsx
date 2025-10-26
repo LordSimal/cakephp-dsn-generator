@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler } from 'react'
 
 export default function FormSelect({
   name,
@@ -12,25 +12,24 @@ export default function FormSelect({
   onChange = null,
   value = null,
 }: {
-  name: string;
-  options: object;
-  className?: string;
-  required?: boolean;
-  label?: string;
-  otherAttrs?: object;
-  onChange?: ChangeEventHandler | null;
-  value?: any;
+  name: string
+  options: object
+  className?: string
+  required?: boolean
+  label?: string
+  otherAttrs?: object
+  onChange?: ChangeEventHandler | null
+  value?: any
 }) {
   if (!onChange) {
-    // eslint-disable-next-line no-param-reassign,func-names
     onChange = function () {
-      return true;
-    };
+      return true
+    }
   }
 
   return (
     <div className={className}>
-      <label htmlFor={name} className='block text-sm font-medium text-gray-700'>
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
       <select
@@ -38,7 +37,7 @@ export default function FormSelect({
         id={name}
         autoComplete={name}
         required={required}
-        className='mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm'
+        className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
         onChange={onChange}
         defaultValue={value}
         {...otherAttrs}
@@ -51,5 +50,5 @@ export default function FormSelect({
         ))}
       </select>
     </div>
-  );
+  )
 }
