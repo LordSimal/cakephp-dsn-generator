@@ -19,7 +19,5 @@ jobs:
         run: npx playwright install --with-deps
       - name: Playwright tests
         run: npm run test:e2e
-      - name: Lint
+      - name: Lint & Code Style
         run: npm run lint
-      - name: Prettier
-        run: npm run format
