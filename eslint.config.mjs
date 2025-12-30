@@ -1,19 +1,15 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import nextVitals from 'eslint-config-next/core-web-vitals'
-import nextPlugin from '@next/eslint-plugin-next'
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import reactCompiler from 'eslint-plugin-react-compiler'
+import { FlatCompat } from '@eslint/eslintrc'
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
 })
 
 const eslintConfig = defineConfig([
   ...nextVitals,
-  nextPlugin.configs['core-web-vitals'],
+  reactCompiler.configs.recommended,
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
@@ -42,12 +38,6 @@ const eslintConfig = defineConfig([
         },
       ],
       'react/react-in-jsx-scope': 'off',
-      'jsx-a11y/alt-text': 'warn',
-      'jsx-a11y/aria-props': 'warn',
-      'jsx-a11y/aria-proptypes': 'warn',
-      'jsx-a11y/aria-unsupported-elements': 'warn',
-      'jsx-a11y/role-has-required-aria-props': 'warn',
-      'jsx-a11y/role-supports-aria-props': 'warn',
     },
   }),
 ])
