@@ -31,7 +31,6 @@ export default function FormInput({
 
   useEffect(() => {
     if (cleanValue) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setValue('')
       if (initialValue) {
         setValue(initialValue)

@@ -1,26 +1,42 @@
 import { defineConfig, globalIgnores } from 'eslint/config'
-import nextVitals from 'eslint-config-next/core-web-vitals'
+import globals from 'globals'
+import prettierPlugin from 'eslint-plugin-prettier'
 import reactCompiler from 'eslint-plugin-react-compiler'
-import { FlatCompat } from '@eslint/eslintrc'
+import tseslint from 'typescript-eslint'
 
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-})
+const typedConfigFiles = ['**/*.{ts,tsx,mts,cts}']
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
+const typedLintConfigs = tseslint.configs.recommended.map((config) => ({
+  ...config,
+  files: config.files ?? typedConfigFiles,
+}))
+
+export default defineConfig([
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  {
+    files: typedConfigFiles,
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  ...typedLintConfigs,
   reactCompiler.configs.recommended,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    '.next/**',
-    'out/**',
-    'build/**',
-    'next-env.d.ts',
-  ]),
-  ...compat.config({
-    plugins: ['prettier'],
+  {
+    plugins: {
+      prettier: prettierPlugin,
+    },
     rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       'prettier/prettier': [
         'error',
         {
@@ -32,14 +48,12 @@ const eslintConfig = defineConfig([
           endOfLine: 'auto',
           arrowParens: 'always',
           plugins: ['prettier-plugin-tailwindcss'],
+          tailwindStylesheet: './src/app/globals.css',
         },
         {
           usePrettierrc: false,
         },
       ],
-      'react/react-in-jsx-scope': 'off',
     },
-  }),
+  },
 ])
-
-export default eslintConfig

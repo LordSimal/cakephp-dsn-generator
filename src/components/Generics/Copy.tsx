@@ -30,7 +30,7 @@ export default function Copy({
       </div>
       <Conditional showWhen={!disabled}>
         <button
-          className="w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm ring-2 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
           onClick={() => copy(text)}
           aria-label={label}
         >
@@ -39,7 +39,7 @@ export default function Copy({
       </Conditional>
       {
         <div
-          className={`fixed right-0 top-1/2 z-30 overflow-hidden p-4 ${copied ? `${s.active}` : ''} ${s.toast}`}
+          className={`fixed top-1/2 right-0 z-30 overflow-hidden p-4 ${copied ? `${s.active}` : ''} ${s.toast}`}
         >
           <div className={`rounded border-l-4 bg-white px-4 py-2 shadow-lg`}>
             Copied to clipboard!
