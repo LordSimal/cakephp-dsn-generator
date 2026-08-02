@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEventHandler } from 'react'
+import { ChangeEventHandler } from 'react'
 
 export default function FormSelect({
   name,
@@ -9,24 +9,18 @@ export default function FormSelect({
   required = false,
   label = 'My Label',
   otherAttrs = {},
-  onChange = null,
-  value = null,
+  onChange,
+  value = '',
 }: {
   name: string
-  options: object
+  options: Record<string, string>
   className?: string
   required?: boolean
   label?: string
   otherAttrs?: object
-  onChange?: ChangeEventHandler | null
-  value?: any
+  onChange: ChangeEventHandler<HTMLSelectElement>
+  value?: string
 }) {
-  if (!onChange) {
-    onChange = function () {
-      return true
-    }
-  }
-
   return (
     <div className={className}>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
@@ -39,13 +33,12 @@ export default function FormSelect({
         required={required}
         className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm ring-red-500 focus:border-red-500 focus:outline-none sm:text-sm"
         onChange={onChange}
-        defaultValue={value}
+        value={value}
         {...otherAttrs}
       >
-        {Object.keys(options).map((key) => (
+        {Object.entries(options).map(([key, optionLabel]) => (
           <option key={key} value={key}>
-            {/* @ts-ignore */}
-            {options[key]}
+            {optionLabel}
           </option>
         ))}
       </select>

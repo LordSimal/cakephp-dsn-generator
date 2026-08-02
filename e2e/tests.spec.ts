@@ -21,6 +21,33 @@ test('simple mysql/mariadb', async ({ page }) => {
   )
 })
 
+test('special characters in credentials are url-encoded', async ({ page }) => {
+  await page.goto('/')
+  await page.getByLabel('Server').fill('mysql.server.local')
+  await page.getByLabel('Username').fill('my user')
+  await page.getByLabel('Password').fill('p@ss:w/rd')
+  await page.getByLabel('Database').fill('db')
+  await page.locator('form button').press('Enter')
+
+  const result = page.locator('.result-container')
+  await expect(result).toBeVisible()
+  await expect(result).toContainText(
+    'mysql://my%20user:p%40ss%3Aw%2Frd@mysql.server.local:3306/db',
+  )
+})
+
+test('username without password', async ({ page }) => {
+  await page.goto('/')
+  await page.getByLabel('Server').fill('mysql.server.local')
+  await page.getByLabel('Username').fill('root')
+  await page.getByLabel('Database').fill('db')
+  await page.locator('form button').press('Enter')
+
+  const result = page.locator('.result-container')
+  await expect(result).toBeVisible()
+  await expect(result).toContainText('mysql://root@mysql.server.local:3306/db')
+})
+
 test('simple postgresql', async ({ page }) => {
   await page.goto('/')
   await page.getByLabel('Connection Type').selectOption('postgres')

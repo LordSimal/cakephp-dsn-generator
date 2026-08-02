@@ -1,55 +1,44 @@
-import { DSNFormType, FormStateType } from '@/types'
+import { DSNData, FormStateType } from '@/types'
 
 export function generateDSN(
-  form: DSNFormType,
+  data: DSNData,
   showPort: boolean,
   showUserPass: boolean,
-) {
-  const params = []
-  const data = {
-    dbms: form.dbms.value,
-    server: form.server.value,
-    port: undefined,
-    username: undefined,
-    password: undefined,
-    database: form.database.value,
-    schema: undefined,
-    timezone: undefined,
-    init: undefined,
-  }
+): string {
+  const params: string[] = []
 
-  if (showPort && form.port) {
-    // @ts-ignore
-    data.port = form.port.value
+  if (data.schema) {
+    params.push(`schema=${data.schema}`)
   }
-  if (showUserPass && form.username && form.password) {
-    // @ts-ignore
-    data.username = form.username.value
-    // @ts-ignore
-    data.password = form.password.value
+  if (data.timezone) {
+    params.push(`timezone=${data.timezone}`)
   }
-  if (form.schema?.value) {
-    params.push(`schema=${form.schema.value}`)
+  if (data.init) {
+    params.push(`init[]=${data.init}`)
   }
-  if (form.timezone?.value) {
-    params.push(`timezone=${form.timezone.value}`)
-  }
-  if (form.init?.value) {
-    params.push(`init[]=${form.init.value}`)
-  }
-  if (form.enable_querylogging?.checked) {
+  if (data.enable_querylogging) {
     params.push('log=true')
   }
 
   let result = `${data.dbms}://`
-  if (data.username && data.password) {
-    result += `${data.username}:${data.password}@`
-  }
-  result += `${data.server}`
 
-  if (data.port) {
+  // A DSN is a URL, so credentials must be percent-encoded, otherwise
+  // characters like @ : / # ? break parsing. Username may be present
+  // without a password (e.g. a local root user).
+  if (showUserPass && data.username) {
+    result += encodeURIComponent(data.username)
+    if (data.password) {
+      result += `:${encodeURIComponent(data.password)}`
+    }
+    result += '@'
+  }
+
+  result += data.server
+
+  if (showPort && data.port) {
     result += `:${data.port}`
   }
+
   result += `/${data.database}`
 
   if (params.length) {

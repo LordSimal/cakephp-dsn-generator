@@ -1,55 +1,65 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import Conditional from '@/components/Generics/Conditional'
 import Copy from '@/components/Generics/Copy'
 import FormInput from '@/components/Generics/FormInput'
 import FormSelect from '@/components/Generics/FormSelect'
 import Optional from '@/components/Optional'
 import { generateDSN, getFormVisibility } from '@/lib/DSNGenerator'
+import { DSNData } from '@/types'
+
+const initialValues: DSNData = {
+  dbms: 'mysql',
+  server: 'localhost',
+  port: '3306',
+  username: '',
+  password: '',
+  database: '',
+  schema: '',
+  timezone: '',
+  init: '',
+  enable_querylogging: false,
+}
 
 export default function DSNForm() {
-  const [port, setPort] = useState<number | null>(3306)
+  const [values, setValues] = useState<DSNData>(initialValues)
+  const [visibility, setVisibility] = useState(() => getFormVisibility('mysql'))
   const [dsnString, setDsnString] = useState('')
-  const [showPort, setShowPort] = useState(true)
-  const [showUserPass, setShowUserPass] = useState(true)
-  const [showOptional, setShowOptional] = useState(true)
-  const [isPostgres, setIsPostgres] = useState(false)
-  const [cleanValues, setCleanValues] = useState(false)
 
-  const onDbmsSelect = (e: any) => {
-    const { value } = e.target
-    const formVisibility = getFormVisibility(value)
-    setShowUserPass(formVisibility.showUserPass)
-    setPort(formVisibility.port)
-    setShowPort(formVisibility.showPort)
-    setIsPostgres(formVisibility.showIsPostgres)
-    setShowOptional(formVisibility.showOptional)
+  const handleChange = (name: string, value: string | boolean) => {
+    setValues((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const onDbmsSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const dbms = e.target.value
+    const formVisibility = getFormVisibility(dbms)
+    setVisibility(formVisibility)
+    // Reset all fields, keeping only the new connection type and its default port.
+    setValues({
+      ...initialValues,
+      dbms,
+      port: formVisibility.port?.toString() ?? '',
+    })
     setDsnString('')
-    setCleanValues(true)
   }
 
-  const onSubmitFunc = (e: any) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const result = generateDSN(e.target, showPort, showUserPass)
-    setDsnString(result)
+    setDsnString(
+      generateDSN(values, visibility.showPort, visibility.showUserPass),
+    )
   }
-
-  // Reset clean values state after cleaning is done
-  useEffect(() => {
-    if (cleanValues) {
-      setCleanValues(false)
-    }
-  }, [cleanValues])
 
   return (
-    <form action="/" method="post" onSubmit={onSubmitFunc}>
+    <form onSubmit={onSubmit}>
       <div className="overflow-hidden rounded bg-white px-4 py-5 shadow sm:p-6">
         <div className="grid grid-cols-6 gap-6">
           <FormSelect
             name="dbms"
             label="Connection Type"
             className="col-span-6"
+            value={values.dbms}
             options={{
               mysql: 'MySQL/MariaDB',
               postgres: 'PostgreSQL',
@@ -63,37 +73,39 @@ export default function DSNForm() {
           <FormInput
             type="text"
             name="server"
-            className={`${showPort ? 'col-span-4' : 'col-span-6'}`}
+            className={`${visibility.showPort ? 'col-span-4' : 'col-span-6'}`}
             label="Server"
-            initialValue={'localhost'}
-            cleanValue={cleanValues}
+            value={values.server}
+            onChange={handleChange}
           />
-          <Conditional showWhen={showPort}>
+          <Conditional showWhen={visibility.showPort}>
             <FormInput
               type="number"
               name="port"
               className="col-span-2"
               label="Port"
               otherAttrs={{ min: 0, step: 1 }}
-              initialValue={port?.toString() ?? ''}
-              cleanValue={cleanValues}
+              value={values.port}
+              onChange={handleChange}
             />
           </Conditional>
 
-          <Conditional showWhen={showUserPass}>
+          <Conditional showWhen={visibility.showUserPass}>
             <FormInput
               type="text"
               name="username"
               className="col-span-6"
               label="Username"
-              cleanValue={cleanValues}
+              value={values.username}
+              onChange={handleChange}
             />
             <FormInput
               type="password"
               name="password"
               className="col-span-6"
               label="Password"
-              cleanValue={cleanValues}
+              value={values.password}
+              onChange={handleChange}
             />
           </Conditional>
 
@@ -103,12 +115,17 @@ export default function DSNForm() {
             className="col-span-6"
             label="Database"
             required={true}
-            cleanValue={cleanValues}
+            value={values.database}
+            onChange={handleChange}
           />
         </div>
 
-        <Conditional showWhen={showOptional}>
-          <Optional isPostgres={isPostgres} cleanValue={cleanValues} />
+        <Conditional showWhen={visibility.showOptional}>
+          <Optional
+            isPostgres={visibility.showIsPostgres}
+            values={values}
+            onChange={handleChange}
+          />
         </Conditional>
 
         <Conditional showWhen={dsnString !== ''}>

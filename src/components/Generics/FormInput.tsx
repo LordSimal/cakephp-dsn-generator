@@ -1,52 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
 export default function FormInput({
   type,
   name,
   className,
   required = false,
-  label = 'Copy',
+  label = '',
   otherAttrs = {},
-  cleanValue = false,
-  initialValue = '',
+  value,
+  onChange,
 }: {
   type: string
   name: string
   className?: string
   required?: boolean
   label?: string
-  otherAttrs?: any
-  cleanValue: boolean
-  initialValue?: string
+  otherAttrs?: Record<string, unknown>
+  value: string | boolean
+  onChange: (name: string, value: string | boolean) => void
 }) {
-  const [value, setValue] = useState('')
-
-  const domAttrs = otherAttrs
-
-  const handleChange = (event: any) => {
-    setValue(event.target.value)
-  }
-
-  useEffect(() => {
-    if (cleanValue) {
-      setValue('')
-      if (initialValue) {
-        setValue(initialValue)
-      }
-    }
-  }, [cleanValue, initialValue])
-
-  if (initialValue && value === '') {
-    setValue(initialValue)
-  }
+  const isCheckbox = type === 'checkbox'
 
   return (
     <div className={className}>
       <label
         htmlFor={name}
-        className={`${type !== 'checkbox' ? 'block' : ''} text-sm font-medium text-gray-700`}
+        className={`${!isCheckbox ? 'block' : ''} text-sm font-medium text-gray-700`}
       >
         {label}
       </label>
@@ -54,12 +33,20 @@ export default function FormInput({
         type={type}
         name={name}
         id={name}
-        autoComplete={name}
+        // Avoid offering to save the throwaway password in the browser.
+        autoComplete={type === 'password' ? 'new-password' : name}
         required={required}
-        className={`${type !== 'checkbox' ? 'block w-full' : 'order-first mr-3'} rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm`}
-        value={value}
-        onChange={handleChange}
-        {...domAttrs}
+        className={`${!isCheckbox ? 'block w-full' : 'order-first mr-3'} rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm`}
+        {...(isCheckbox
+          ? {
+              checked: value as boolean,
+              onChange: (e) => onChange(name, e.target.checked),
+            }
+          : {
+              value: value as string,
+              onChange: (e) => onChange(name, e.target.value),
+            })}
+        {...otherAttrs}
       />
     </div>
   )

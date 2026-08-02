@@ -9,7 +9,12 @@ export default function Home() {
           <p className="text-sm">
             The following form can be used to generate DSN strings which can be
             used to define connection configs in e.g.{' '}
-            <a className="underline" href="https://cakephp.org" target="_blank">
+            <a
+              className="underline"
+              href="https://cakephp.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               CakePHP
             </a>
           </p>
@@ -26,6 +31,7 @@ export default function Home() {
               className="underline"
               href="https://github.com/LordSimal/cakephp-dsn-generator"
               target="_blank"
+              rel="noopener noreferrer"
             >
               Github
             </a>

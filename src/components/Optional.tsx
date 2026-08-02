@@ -1,20 +1,21 @@
 import Conditional from '@/components/Generics/Conditional'
 import FormInput from '@/components/Generics/FormInput'
 import FormSelect from '@/components/Generics/FormSelect'
+import { DSNData } from '@/types'
 // @ts-ignore
 import timezones from 'google-timezones-json'
 
 export default function Optional({
   isPostgres,
-  cleanValue = false,
+  values,
+  onChange,
 }: {
   isPostgres: boolean
-  cleanValue: boolean
+  values: DSNData
+  onChange: (name: string, value: string | boolean) => void
 }) {
-  // let defaultTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const emptyOption = { '': 'None' }
-  const myTimezones = {
-    ...emptyOption,
+  const myTimezones: Record<string, string> = {
+    '': 'None',
     ...timezones,
   }
 
@@ -28,7 +29,8 @@ export default function Optional({
             name="schema"
             className="col-span-6"
             label="Schema"
-            cleanValue={cleanValue}
+            value={values.schema}
+            onChange={onChange}
           />
         </Conditional>
 
@@ -37,6 +39,8 @@ export default function Optional({
           label="Timezone"
           className="col-span-6"
           options={myTimezones}
+          value={values.timezone}
+          onChange={(e) => onChange('timezone', e.target.value)}
         />
 
         <FormInput
@@ -44,14 +48,16 @@ export default function Optional({
           name="init"
           className="col-span-6"
           label="SQL init command"
-          cleanValue={cleanValue}
+          value={values.init}
+          onChange={onChange}
         />
         <FormInput
           type="checkbox"
           name="enable_querylogging"
           className="col-span-6 flex items-center"
           label="Enable query logging"
-          cleanValue={cleanValue}
+          value={values.enable_querylogging}
+          onChange={onChange}
         />
       </div>
     </details>

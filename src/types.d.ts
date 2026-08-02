@@ -1,14 +1,14 @@
-export type DSNFormType = {
-  dbms: HTMLInputElement
-  server: HTMLInputElement
-  port: HTMLInputElement | undefined
-  username: HTMLInputElement | undefined
-  password: HTMLInputElement | undefined
-  database: HTMLInputElement
-  schema: HTMLInputElement | undefined
-  timezone: HTMLInputElement | undefined
-  init: HTMLInputElement | undefined
-  enable_querylogging: HTMLInputElement | undefined
+export type DSNData = {
+  dbms: string
+  server: string
+  port: string
+  username: string
+  password: string
+  database: string
+  schema: string
+  timezone: string
+  init: string
+  enable_querylogging: boolean
 }
 
 export type FormStateType = {
